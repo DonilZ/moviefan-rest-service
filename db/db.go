@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"webApp/model"
+	"webApp/src/model"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"

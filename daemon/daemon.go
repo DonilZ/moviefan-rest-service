@@ -7,9 +7,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"webApp/db"
-	"webApp/model"
-	"webApp/ui"
+	"webApp/src/db"
+	"webApp/src/model"
+	"webApp/src/ui"
 )
 
 //Config ...

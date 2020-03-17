@@ -3,7 +3,7 @@ package ui
 import (
 	"net"
 	"net/http"
-	"webApp/model"
+	"webApp/src/model"
 
 	"github.com/gin-gonic/gin"
 )

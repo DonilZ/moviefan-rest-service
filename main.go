@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	"webApp/daemon"
+	"webApp/src/daemon"
 )
 
 var assetsPath string

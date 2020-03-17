@@ -2,7 +2,7 @@ package ui
 
 import (
 	"net/http"
-	"webApp/model"
+	"webApp/src/model"
 
 	"time"
 
