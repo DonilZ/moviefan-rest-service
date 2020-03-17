@@ -2,8 +2,8 @@ package db
 
 import (
 	"fmt"
-	"webApp/src/model"
 
+	"github.com/DonilZ/moviefan-rest-service/model"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
