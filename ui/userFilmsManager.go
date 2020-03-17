@@ -2,10 +2,9 @@ package ui
 
 import (
 	"net/http"
-	"webApp/src/model"
-
 	"time"
 
+	"github.com/DonilZ/moviefan-rest-service/model"
 	"github.com/gin-gonic/gin"
 )
 

@@ -3,8 +3,8 @@ package ui
 import (
 	"net/http"
 	"strconv"
-	"webApp/src/model"
 
+	"github.com/DonilZ/moviefan-rest-service/model"
 	"github.com/gin-gonic/gin"
 )
 

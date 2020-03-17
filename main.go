@@ -4,7 +4,8 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	"webApp/src/daemon"
+
+	"github.com/DonilZ/moviefan-rest-service/daemon"
 )
 
 var assetsPath string

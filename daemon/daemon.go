@@ -7,9 +7,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"webApp/src/db"
-	"webApp/src/model"
-	"webApp/src/ui"
+	"github.com/DonilZ/moviefan-rest-service/db"
+	"github.com/DonilZ/moviefan-rest-service/model"
+	"github.com/DonilZ/moviefan-rest-service/ui"
 )
 
 //Config ...
