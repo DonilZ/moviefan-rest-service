@@ -236,6 +236,15 @@ func (p *PgDb) createTablesIfNotExist() error {
        year INTEGER NOT NULL);
 
 	`
+
+	createUserFilmsSQL := `
+
+       CREATE TABLE IF NOT EXISTS user_films (
+       id SERIAL NOT NULL PRIMARY KEY,
+       user_id INTEGER NOT NULL REFERENCES users(id),
+       film_id INTEGER NOT NULL REFERENCES films(id));
+
+	`
 	rowsUsersTable, err := p.dbConn.Query(createUsersSQL)
 	if err != nil {
 		return err
@@ -248,6 +257,12 @@ func (p *PgDb) createTablesIfNotExist() error {
 		return err
 	}
 	rowsFilmsTable.Close()
+
+	rowsUserFilmsTable, err := p.dbConn.Query(createUserFilmsSQL)
+	if err != nil {
+		return err
+	}
+	rowsUserFilmsTable.Close()
 
 	return nil
 }
