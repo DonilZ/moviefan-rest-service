@@ -3,6 +3,7 @@ package ui
 import (
 	"net/http"
 
+	"github.com/DonilZ/moviefan-rest-service/config"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/securecookie"
 )
@@ -18,7 +19,7 @@ func setSession(userName string, c *gin.Context) string {
 
 	if encodedValue, err := cookieHandler.Encode("session", value); err == nil {
 
-		c.SetCookie("session", encodedValue, 3600, "/", "localhost",
+		c.SetCookie("session", encodedValue, 3600, "/", config.GetAddress(),
 			http.SameSiteLaxMode, false, true)
 
 		return encodedValue
@@ -41,7 +42,7 @@ func getCurrentSessionUserName(c *gin.Context) (userName string) {
 }
 
 func clearSession(c *gin.Context) {
-	c.SetCookie("session", "", -1, "/", "localhost", http.SameSiteLaxMode, false, true)
+	c.SetCookie("session", "", -1, "/", config.GetAddress(), http.SameSiteLaxMode, false, true)
 }
 
 func isTheUserAuthorized(c *gin.Context) (string, bool) {

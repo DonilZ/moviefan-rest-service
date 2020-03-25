@@ -1,0 +1,6 @@
+{
+    "Address": "localhost",
+    "ListenAddress": "localhost:3000",
+    "DbHost": "/var/run/postgresql",
+    "DbName": "gowebapp"
+}
