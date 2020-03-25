@@ -11,12 +11,14 @@ import (
 func getUserFilmsHandler(m *model.Model) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		currentUserName, isAuthorized := isTheUserAuthorized(c)
+		_, isAuthorized := isTheUserAuthorized(c)
 		if !isAuthorized {
 			return
 		}
 
-		currentUser, err := m.GetUserByLogin(currentUserName)
+		enteredUserName := c.Param("name")
+
+		currentUser, err := m.GetUserByLogin(enteredUserName)
 
 		if err != nil {
 			c.JSON(http.StatusInternalServerError,
@@ -41,6 +43,14 @@ func addUserFilmHandler(m *model.Model) gin.HandlerFunc {
 
 		currentUserName, isAuthorized := isTheUserAuthorized(c)
 		if !isAuthorized {
+			return
+		}
+
+		enteredUserName := c.Param("name")
+
+		if enteredUserName != currentUserName {
+			c.JSON(http.StatusInternalServerError,
+				jsonResponse(http.StatusForbidden, "Not enough rights"))
 			return
 		}
 
@@ -115,6 +125,14 @@ func deleteUserFilmHandler(m *model.Model) gin.HandlerFunc {
 
 		currentUserName, isAuthorized := isTheUserAuthorized(c)
 		if !isAuthorized {
+			return
+		}
+
+		enteredUserName := c.Param("name")
+
+		if enteredUserName != currentUserName {
+			c.JSON(http.StatusInternalServerError,
+				jsonResponse(http.StatusForbidden, "Not enough rights"))
 			return
 		}
 

@@ -33,9 +33,9 @@ func Start(cfg Config, m *model.Model, listener net.Listener) {
 		v1.GET("/users/:name", getUserHandler(m))
 		v1.POST("/users", registerHandler(m))
 
-		v1.GET("/userFilms", getUserFilmsHandler(m))
-		v1.POST("/userFilms", addUserFilmHandler(m))
-		v1.DELETE("/userFilms", deleteUserFilmHandler(m))
+		v1.GET("/users/:name/films", getUserFilmsHandler(m))
+		v1.POST("/users/:name/films", addUserFilmHandler(m))
+		v1.DELETE("/users/:name/films", deleteUserFilmHandler(m))
 
 		v1.GET("/films", getFilmsHandler(m))
 		v1.GET("/films/:id", getFilmHandler(m))
