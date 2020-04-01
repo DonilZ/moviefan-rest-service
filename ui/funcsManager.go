@@ -62,7 +62,12 @@ func logout(m *model.Model, c *gin.Context) {
 	c.JSON(http.StatusOK, jsonResponse(http.StatusOK, "Success logout"))
 }
 
-func getFuncsHandler(m *model.Model) gin.HandlerFunc {
+// GetFuncs godoc
+// @Summary Retrieves all functions
+// @Produce json
+// @Success 200 array string
+// @Router /funcs [get]
+func GetFuncs(m *model.Model) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var funcNames []string
 
@@ -74,7 +79,13 @@ func getFuncsHandler(m *model.Model) gin.HandlerFunc {
 	}
 }
 
-func getFuncHandler(m *model.Model) gin.HandlerFunc {
+// GetFunc godoc
+// @Summary Call function based on given funcName
+// @Param funcName path string true "Function name"
+// @Success 200 {object} model.DefaultResponse "Function successfully called"
+// @Failure 404 {object} model.DefaultResponse "Function with specified funcName not found"
+// @Router /funcs/{funcName} [put]
+func GetFunc(m *model.Model) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		funcName := c.Param("funcName")
 

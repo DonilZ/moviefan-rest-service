@@ -1,0 +1,281 @@
+basePath: /api/v1
+definitions:
+  model.DefaultResponse:
+    properties:
+      message:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+  model.Film:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      year:
+        type: integer
+    type: object
+  model.UserInfo:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      login:
+        type: string
+    type: object
+info:
+  contact:
+    email: info.donilz@gmail.com
+    name: API Support
+  description: Swagger API for Golang Project Moviefan
+  license: {}
+  termsOfService: http://swagger.io/terms/
+  title: Moviefan Swagger API
+  version: "1.0"
+paths:
+  /{userName}/films:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: UserName (Login)
+        in: path
+        name: userName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Film successfully deleted
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "400":
+          description: Incorrect json ((insufficient or incorrect data) or invalid
+            format)
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "401":
+          description: Not authorized
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "403":
+          description: The username in the parameters does not match the name of the
+            authorized user
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "404":
+          description: Removable film not found
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "500":
+          description: Database error
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+      summary: Removes the specified film from the user's film list.
+    get:
+      parameters:
+      - description: UserName (Login)
+        in: path
+        name: userName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Film'
+            type: array
+        "401":
+          description: Not authorized
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "500":
+          description: Database error
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+      summary: Retrieves all films added by specified user
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: UserName (Login)
+        in: path
+        name: userName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Film successfully added
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "400":
+          description: Incorrect json ((insufficient or incorrect data) or invalid
+            format)
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "401":
+          description: Not authorized
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "403":
+          description: The username in the parameters does not match the name of the
+            authorized user
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "409":
+          description: Film already added
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "500":
+          description: Database error
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+      summary: Adds a new film to the list of the specified user
+  /films:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Film'
+            type: array
+        "500":
+          description: Database error
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+      summary: Retrieves all films added by users
+  /films/{id}:
+    get:
+      parameters:
+      - description: Film ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Film'
+        "400":
+          description: Invalid film ID
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "404":
+          description: Film with specified ID not found
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "500":
+          description: Database error
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+      summary: Retrieves film based on given ID
+  /funcs:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Retrieves all functions
+  /funcs/{funcName}:
+    put:
+      parameters:
+      - description: Function name
+        in: path
+        name: funcName
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Function successfully called
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "404":
+          description: Function with specified funcName not found
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+      summary: Call function based on given funcName
+  /users:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.UserInfo'
+            type: array
+        "500":
+          description: Database error
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+      summary: Retrieves all registered users
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Registration completed successfully
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "400":
+          description: Invalid register data
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "409":
+          description: User with such data is already registered
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "500":
+          description: Database error
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+      summary: Register a new user
+  /users/{userName}:
+    get:
+      parameters:
+      - description: UserName (Login)
+        in: path
+        name: userName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.UserInfo'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+        "500":
+          description: Database error
+          schema:
+            $ref: '#/definitions/model.DefaultResponse'
+      summary: Retrieves user based on given UserName (Login)
+swagger: "2.0"

@@ -8,7 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func getUserFilmsHandler(m *model.Model) gin.HandlerFunc {
+// GetUserFilms godoc
+// @Summary Retrieves all films added by specified user
+// @Produce json
+// @Param userName path string true "UserName (Login)"
+// @Success 200 array model.Film
+// @Failure 401 {object} model.DefaultResponse "Not authorized"
+// @Failure 500 {object} model.DefaultResponse "Database error"
+// @Router /{userName}/films [get]
+func GetUserFilms(m *model.Model) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		_, isAuthorized := isTheUserAuthorized(c)
@@ -16,7 +24,7 @@ func getUserFilmsHandler(m *model.Model) gin.HandlerFunc {
 			return
 		}
 
-		enteredUserName := c.Param("name")
+		enteredUserName := c.Param("userName")
 
 		currentUser, err := m.GetUserByLogin(enteredUserName)
 
@@ -38,7 +46,19 @@ func getUserFilmsHandler(m *model.Model) gin.HandlerFunc {
 	}
 }
 
-func addUserFilmHandler(m *model.Model) gin.HandlerFunc {
+// AddUserFilm godoc
+// @Summary Adds a new film to the list of the specified user
+// @Accept json
+// @Produce json
+// @Param userName path string true "UserName (Login)"
+// @Success 200 {object} model.DefaultResponse "Film successfully added"
+// @Failure 400 {object} model.DefaultResponse "Incorrect json ((insufficient or incorrect data) or invalid format)"
+// @Failure 401 {object} model.DefaultResponse "Not authorized"
+// @Failure 403 {object} model.DefaultResponse "The username in the parameters does not match the name of the authorized user"
+// @Failure 409 {object} model.DefaultResponse "Film already added"
+// @Failure 500 {object} model.DefaultResponse "Database error"
+// @Router /{userName}/films [post]
+func AddUserFilm(m *model.Model) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		currentUserName, isAuthorized := isTheUserAuthorized(c)
@@ -46,10 +66,10 @@ func addUserFilmHandler(m *model.Model) gin.HandlerFunc {
 			return
 		}
 
-		enteredUserName := c.Param("name")
+		enteredUserName := c.Param("userName")
 
 		if enteredUserName != currentUserName {
-			c.JSON(http.StatusInternalServerError,
+			c.JSON(http.StatusForbidden,
 				jsonResponse(http.StatusForbidden, "Not enough rights"))
 			return
 		}
@@ -120,7 +140,19 @@ func addUserFilmHandler(m *model.Model) gin.HandlerFunc {
 	}
 }
 
-func deleteUserFilmHandler(m *model.Model) gin.HandlerFunc {
+// DeleteUserFilm godoc
+// @Summary Removes the specified film from the user's film list.
+// @Accept json
+// @Produce json
+// @Param userName path string true "UserName (Login)"
+// @Success 200 {object} model.DefaultResponse "Film successfully deleted"
+// @Failure 400 {object} model.DefaultResponse "Incorrect json ((insufficient or incorrect data) or invalid format)"
+// @Failure 401 {object} model.DefaultResponse "Not authorized"
+// @Failure 403 {object} model.DefaultResponse "The username in the parameters does not match the name of the authorized user"
+// @Failure 404 {object} model.DefaultResponse "Removable film not found"
+// @Failure 500 {object} model.DefaultResponse "Database error"
+// @Router /{userName}/films [delete]
+func DeleteUserFilm(m *model.Model) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		currentUserName, isAuthorized := isTheUserAuthorized(c)
@@ -128,7 +160,7 @@ func deleteUserFilmHandler(m *model.Model) gin.HandlerFunc {
 			return
 		}
 
-		enteredUserName := c.Param("name")
+		enteredUserName := c.Param("userName")
 
 		if enteredUserName != currentUserName {
 			c.JSON(http.StatusInternalServerError,

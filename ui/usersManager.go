@@ -8,7 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func registerHandler(m *model.Model) gin.HandlerFunc {
+// RegisterUser godoc
+// @Summary Register a new user
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.DefaultResponse "Registration completed successfully"
+// @Failure 400 {object} model.DefaultResponse "Invalid register data"
+// @Failure 409 {object} model.DefaultResponse "User with such data is already registered"
+// @Failure 500 {object} model.DefaultResponse "Database error"
+// @Router /users [post]
+func RegisterUser(m *model.Model) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		var newUser model.User
@@ -77,7 +86,13 @@ func isTheEnteredNewUserLoginOrEmailExist(c *gin.Context, allUsers []*model.User
 	return false
 }
 
-func getUsersHandler(m *model.Model) gin.HandlerFunc {
+// GetUsers godoc
+// @Summary Retrieves all registered users
+// @Produce json
+// @Success 200 array model.UserInfo
+// @Failure 500 {object} model.DefaultResponse "Database error"
+// @Router /users [get]
+func GetUsers(m *model.Model) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		userInfos := make([]*model.UserInfo, 0)
@@ -102,9 +117,17 @@ func getUsersHandler(m *model.Model) gin.HandlerFunc {
 	}
 }
 
-func getUserHandler(m *model.Model) gin.HandlerFunc {
+// GetUser godoc
+// @Summary Retrieves user based on given UserName (Login)
+// @Produce json
+// @Param userName path string true "UserName (Login)"
+// @Success 200 {object} model.UserInfo
+// @Failure 404 {object} model.DefaultResponse "User not found"
+// @Failure 500 {object} model.DefaultResponse "Database error"
+// @Router /users/{userName} [get]
+func GetUser(m *model.Model) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userLogin := c.Param("name")
+		userLogin := c.Param("userName")
 
 		desiredUser, err := m.GetUserByLogin(userLogin)
 

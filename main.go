@@ -8,7 +8,17 @@ import (
 
 	"github.com/DonilZ/moviefan-rest-service/config"
 	"github.com/DonilZ/moviefan-rest-service/daemon"
+
+	_ "github.com/DonilZ/moviefan-rest-service/docs"
 )
+
+// @title Moviefan Swagger API
+// @version 1.0
+// @description Swagger API for Golang Project Moviefan
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.email info.donilz@gmail.com
 
 var assetsPath string
 
@@ -32,6 +42,7 @@ func setupHTTPAssets(cfg *daemon.Config) {
 	cfg.UI.Assets = http.Dir(assetsPath)
 }
 
+// @BasePath /api/v1
 func main() {
 	cfg := processFlags()
 

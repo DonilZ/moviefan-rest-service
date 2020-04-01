@@ -6,6 +6,9 @@ import (
 
 	"github.com/DonilZ/moviefan-rest-service/model"
 	"github.com/gin-gonic/gin"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 //Config ...
@@ -26,19 +29,21 @@ func Start(cfg Config, m *model.Model, listener net.Listener) {
 	//Create a group that unites all our api methods
 	v1 := router.Group("api/v1")
 	{
-		v1.GET("/funcs", getFuncsHandler(m))
-		v1.PUT("/funcs/:funcName", getFuncHandler(m))
+		v1.GET("/funcs", GetFuncs(m))
+		v1.PUT("/funcs/:funcName", GetFunc(m))
 
-		v1.GET("/users", getUsersHandler(m))
-		v1.GET("/users/:name", getUserHandler(m))
-		v1.POST("/users", registerHandler(m))
+		v1.GET("/users", GetUsers(m))
+		v1.GET("/users/:userName", GetUser(m))
+		v1.POST("/users", RegisterUser(m))
 
-		v1.GET("/users/:name/films", getUserFilmsHandler(m))
-		v1.POST("/users/:name/films", addUserFilmHandler(m))
-		v1.DELETE("/users/:name/films", deleteUserFilmHandler(m))
+		v1.GET("/users/:userName/films", GetUserFilms(m))
+		v1.POST("/users/:userName/films", AddUserFilm(m))
+		v1.DELETE("/users/:userName/films", DeleteUserFilm(m))
 
-		v1.GET("/films", getFilmsHandler(m))
-		v1.GET("/films/:id", getFilmHandler(m))
+		v1.GET("/films", GetFilms(m))
+		v1.GET("/films/:id", GetFilm(m))
+
+		v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
 	//Attach the router to http.Server and start listening HTTP requests

@@ -20,7 +20,7 @@ func setSession(userName string, c *gin.Context) string {
 	if encodedValue, err := cookieHandler.Encode("session", value); err == nil {
 
 		c.SetCookie("session", encodedValue, 3600, "/", config.GetAddress(),
-			http.SameSiteLaxMode, false, true)
+			false, true)
 
 		return encodedValue
 	}
@@ -42,7 +42,7 @@ func getCurrentSessionUserName(c *gin.Context) (userName string) {
 }
 
 func clearSession(c *gin.Context) {
-	c.SetCookie("session", "", -1, "/", config.GetAddress(), http.SameSiteLaxMode, false, true)
+	c.SetCookie("session", "", -1, "/", config.GetAddress(), false, true)
 }
 
 func isTheUserAuthorized(c *gin.Context) (string, bool) {

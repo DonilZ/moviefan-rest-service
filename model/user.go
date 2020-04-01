@@ -2,13 +2,18 @@ package model
 
 //User ...
 type User struct {
-	ID                  int
-	FirstName, LastName string
-	Email, Login        string
-	Password            string
+	ID        int
+	FirstName string
+	LastName  string
+	Email     string
+	Login     string
+	Password  string
 }
 
 //UserInfo ...
 type UserInfo struct {
-	FirstName, LastName, Login, Email string
+	FirstName string
+	LastName  string
+	Login     string
+	Email     string
 }

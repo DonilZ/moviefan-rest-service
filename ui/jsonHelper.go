@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/DonilZ/moviefan-rest-service/model"
 	"github.com/gin-gonic/gin"
 )
 
-func jsonResponse(statusCode int, message string) gin.H {
-	return gin.H{
-		"statusCode": statusCode,
-		"message":    message}
+func jsonResponse(statusCode int, message string) model.DefaultResponse {
+	return model.DefaultResponse{StatusCode: statusCode, Message: message}
 }
 
 func tryBindJSON(c *gin.Context, object interface{}) bool {
